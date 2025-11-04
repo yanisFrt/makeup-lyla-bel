@@ -7,7 +7,7 @@ const Navbar = () => {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1.2, duration: 0.6 }}
-      className="w-full py-2 px-20 flex justify-between items-center text-white fixed top-0 left-0 z-40"
+      className="w-full py-2 px-20 flex justify-between items-center text-white  top-0 left-0 z-40"
     >
       {/* Left */}
       <div className="flex gap-6">
