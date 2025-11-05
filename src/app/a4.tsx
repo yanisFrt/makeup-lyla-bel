@@ -6,7 +6,6 @@ import Navbar from "./navbar";
 export default function A4() {
   return (
     <main className="relative h-screen w-full overflow-hidden">
-      {/* FULL BACKGROUND IMAGE */}
       <motion.div
         initial={{ scale: 1.05, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -21,11 +20,9 @@ export default function A4() {
           className="object-cover"
         />
 
-        {/* Pink Luxury Overlay */}
         <div className="absolute inset-0 bg-gradient-to-l md:from-pink-900/80 from-pink-900/90 to-black/30" />
       </motion.div>
 
-      {/* CENTER TEXT */}
       <div className="h-full flex items-center justify-center text-center px-6">
         <motion.div
           initial={{ opacity: 0, y: 40, filter: "blur(6px)" }}

@@ -24,13 +24,10 @@ export default function A1() {
         />
       </div>
 
-      {/* SUBTLE GOLD FADE TO NEXT SECTION */}
       <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-b from-transparent to-rose-950" />
 
-      {/* NAVBAR */}
       <Navbar />
 
-      {/* CONTENT */}
       <section className="relative z-20 flex h-full items-center justify-between md:px-20 px-12">
         <motion.div
           initial={{ opacity: 0, x: -35 }}

@@ -6,7 +6,6 @@ import Navbar from "./navbar";
 export default function A2() {
   return (
     <main className="relative text-white h-screen overflow-hidden bg-[#2b0f14]">
-      {/* BACKGROUND IMAGE */}
       <div className="absolute inset-0">
         <Image
           src="/photomakeup.png"
@@ -15,7 +14,6 @@ export default function A2() {
           className="object-cover object-left"
         />
 
-        {/* LUXURY MULTI-LAYER GRADIENT BLEND */}
         <div
           className="absolute inset-0 bg-gradient-to-r 
           from-[#2b0f14]/80 
@@ -32,16 +30,12 @@ export default function A2() {
           mix-blend-overlay"
         />
 
-        {/* Dark vignette on edges for premium effect */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,#00000040_100%)]" />
       </div>
 
-      {/* NAVBAR */}
       <Navbar />
 
-      {/* CONTENT */}
       <section className="relative z-20 flex h-full items-center md:px-20 px-12">
-        {/* LEFT TEXT */}
         <motion.div
           initial={{ opacity: 0, x: -35 }}
           animate={{ opacity: 1, x: 0 }}
