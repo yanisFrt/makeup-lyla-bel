@@ -29,11 +29,9 @@ export default function Testimonials() {
       id="testimonials"
       className="relative min-h-screen md:py-24 py-12 px-8 md:px-20 text-white"
     >
-      {/* BACKGROUND GLASS PRUNE */}
       <div className="absolute inset-0 bg-gradient-to-b from-rose-950/90 via-rose-950/85 to-pink-950/95 backdrop-blur-3xl" />
 
       <div className="relative z-10 max-w-6xl mx-auto">
-        {/* TITLE */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -54,7 +52,6 @@ export default function Testimonials() {
           </p>
         </motion.div>
 
-        {/* REVIEW CARDS */}
         <div className="grid md:grid-cols-3 gap-8">
           {reviews.map((review, index) => (
             <motion.div
@@ -65,15 +62,14 @@ export default function Testimonials() {
               viewport={{ once: true }}
               className="bg-white/10 backdrop-blur-md border border-[#D4AF37]/40 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
             >
-              {/* Rating */}
               <div className="flex mb-4">
                 {Array.from({ length: review.rating }).map((_, i) => (
                   <FaStar key={i} className="text-[#D4AF37] mr-1" />
                 ))}
               </div>
-              {/* Message */}
+
               <p className="text-gray-200 mb-6">{review.message}</p>
-              {/* Name */}
+
               <p className="font-semibold text-[#fcd96d]">{review.name}</p>
             </motion.div>
           ))}

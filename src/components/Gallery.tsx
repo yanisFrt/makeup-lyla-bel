@@ -10,11 +10,9 @@ export default function Gallery() {
       id="gallery"
       className="relative min-h-[80vh] px-8 md:px-20 text-white overflow-hidden md:py-32 py-12"
     >
-      {/* BACKGROUND LUXE GLASS PRUNE */}
       <div className="absolute inset-0 bg-gradient-to-b from-rose-950/90 via-rose-950/85 to-rose-950/90 backdrop-blur-3xl" />
 
       <div className="relative z-10">
-        {/* TITLE */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -35,7 +33,6 @@ export default function Gallery() {
           </p>
         </motion.div>
 
-        {/* 3-IMAGE GALLERY (SMALLER) */}
         <div className="flex justify-center gap-10 flex-wrap mb-12">
           {images.map((src, index) => (
             <motion.div

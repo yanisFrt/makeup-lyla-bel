@@ -106,7 +106,6 @@ export default function Services() {
         </p>
       </motion.div>
 
-      {/* TABS */}
       <div className="relative flex justify-center mb-12">
         <div className="relative flex gap-8 border-b border-[#fcd96d40] w-fit px-4">
           {tabs.map((tab) => (
@@ -135,7 +134,6 @@ export default function Services() {
         </div>
       </div>
 
-      {/* CARDS */}
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
