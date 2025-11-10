@@ -20,9 +20,9 @@ export default function AboutAndPrestationsSingle() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="md:flex-[0.3] flex flex-col items-center justify-center bg-[#f8e6d2]   mb-5"
+        className="md:flex-[0.3] flex flex-col items-center justify-center bg-[#f8e6d2] "
       >
-        <div className="flex flex-col items-center my-6">
+        <div className="flex flex-col items-center mt-6 mb-4">
           <span className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#c9a063] to-transparent mb-2"></span>
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#5A002E] tracking-wide drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] relative">
             À propos
@@ -38,7 +38,7 @@ export default function AboutAndPrestationsSingle() {
           l’unicité de chaque femme.
         </p>
         <a
-          href="#contact"
+          href="/details"
           className="inline-block mb-6  relative group px-12 py-2.5 md:text-lg font-medium tracking-wide 
           rounded-2xl text-white bg-gradient-to-r from-[#56001e] to-[#7f012d]
           shadow-[0_4px_18px_rgba(130,0,60,0.45)]
@@ -56,7 +56,7 @@ export default function AboutAndPrestationsSingle() {
         viewport={{ once: true }}
         className="w-full justify-center  flex bg-white md:flex-[0.7] md:mb-0 mb-6 flex-col items-center"
       >
-        <div className="flex flex-col items-center mb-6">
+        <div className="flex flex-col items-center mb-4">
           <span className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#c9a063] to-transparent mb-2"></span>
           <h2 className="text-2xl md:text-4xl font-serif font-bold text-[#5A002E] drop-shadow-[0_0_10px_rgba(0,0,0,0.1)] relative">
             Prestations
@@ -75,7 +75,7 @@ export default function AboutAndPrestationsSingle() {
               className="flex flex-col items-center"
             >
               <div
-                className="w-48 h-48 relative rounded-2xl overflow-hidden 
+                className="w-56 h-52 relative rounded-2xl overflow-hidden 
                 border-[3px] border-[#eac8d9] shadow-[0_0_15px_rgba(255,192,203,0.35)]
                 hover:shadow-[0_0_30px_rgba(255,192,203,0.55)]
                 transition-all duration-300"
@@ -95,7 +95,7 @@ export default function AboutAndPrestationsSingle() {
         </div>
 
         <a
-          href="#contact"
+          href="/contact"
           className="inline-block  relative group md:px-12 px-6 py-3 md:text-lg font-medium tracking-wide 
           rounded-2xl text-white bg-gradient-to-r from-[#56001e] to-[#7f012d]
           shadow-[0_4px_18px_rgba(130,0,60,0.45)]

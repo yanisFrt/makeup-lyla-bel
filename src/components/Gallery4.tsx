@@ -54,7 +54,7 @@ export default function GalleryWithReviews() {
               className="flex flex-col items-center"
             >
               <div
-                className="w-48 h-48 relative rounded-2xl overflow-hidden 
+                className="w-60 h-52 relative rounded-2xl overflow-hidden 
               border-[3px] border-[#eac8d9] shadow-[0_0_15px_rgba(255,192,203,0.35)]
               hover:shadow-[0_0_30px_rgba(255,192,203,0.55)]
               transition-all duration-300"
@@ -72,7 +72,7 @@ export default function GalleryWithReviews() {
 
         <div className="flex justify-center">
           <Link
-            href="/galerie"
+            href="/gallery"
             className="inline-block text-lg text-white font-semibold px-8 py-2 rounded-full border border-[#fddf83] hover:bg-[#fddf83]/20 transition"
           >
             Voir toute la galerie
