@@ -1,7 +1,5 @@
 "use client";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
 import Reservation from "./components/Reservation";
@@ -10,7 +8,6 @@ import Gallery from "./components/Gallery";
 import History from "./components/History";
 export default function Home() {
   const [activeSection, setActiveSection] = useState("dashboard");
-  const images = ["makeup.jpg", "image1.png", "logoM.png", "makeup.jpg"];
 
   return (
     <div className="flex min-h-screen">
@@ -19,8 +16,9 @@ export default function Home() {
         setActiveSection={setActiveSection}
       />
       <main className="flex-1 p-10 text-[#f8e6d2] bg-[#5a011a]">
-        {activeSection === "dashboard" && <Dashboard />}
-
+        {activeSection === "dashboard" && (
+          <Dashboard setActiveSection={setActiveSection} />
+        )}
         {activeSection === "reservation" && <Reservation />}
 
         {activeSection === "historique" && <History />}

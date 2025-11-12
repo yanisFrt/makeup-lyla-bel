@@ -28,6 +28,7 @@ export default function Profil() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Lyla Bel"
+            disabled
             className="md:w-full px-4 py-2 rounded-lg bg-[#f8e6d2]/10 border border-[#d4af37]/40 text-[#f8e6d2] placeholder-[#f8e6d2]/50 focus:outline-none focus:border-[#d4af37]"
           />
         </div>
@@ -40,6 +41,7 @@ export default function Profil() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="lylabelpro@gmail.com"
+            disabled
             className="md:w-full px-4 py-2 rounded-lg bg-[#f8e6d2]/10 border border-[#d4af37]/40 text-[#f8e6d2] placeholder-[#f8e6d2]/50 focus:outline-none focus:border-[#d4af37]"
           />
         </div>
@@ -53,7 +55,8 @@ export default function Profil() {
             type="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="Ex : +33 6 12 34 56 78"
+            placeholder="+33 7 53 01 74 54"
+            disabled
             className="md:w-full px-4 py-2 rounded-lg bg-[#f8e6d2]/10 border border-[#d4af37]/40 text-[#f8e6d2] placeholder-[#f8e6d2]/50 focus:outline-none focus:border-[#d4af37]"
           />
         </div>
@@ -65,7 +68,8 @@ export default function Profil() {
             type="address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            placeholder="Ex : paris,France"
+            placeholder="Paris,France"
+            disabled
             className="md:w-full px-4 py-2 rounded-lg bg-[#f8e6d2]/10 border border-[#d4af37]/40 text-[#f8e6d2] placeholder-[#f8e6d2]/50 focus:outline-none focus:border-[#d4af37]"
           />
         </div>
@@ -104,14 +108,14 @@ export default function Profil() {
           </div>
         )}
 
-        <div className="pt-4">
+        {/* <div className="pt-4">
           <button
             onClick={() => alert("Profil sauvegardé ✅")}
             className="px-6 py-2 bg-[#d4af37] text-[#5a011a] font-semibold rounded-lg hover:bg-[#b8932f] transition"
           >
             Sauvegarder
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

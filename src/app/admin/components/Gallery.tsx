@@ -1,22 +1,54 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaPlus } from "react-icons/fa";
 
 export default function Gallery() {
-  const [images, setImages] = useState([
-    "/makeup.jpg",
-    "/image1.png",
-    "/logoM.png",
-    "/makeup.jpg",
-  ]);
+  const [images, setImages] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
 
-  const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch("/api/upload", { cache: "no-store" });
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setImages(data.reverse());
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des images:", error);
+      }
+    };
+
+    fetchImages();
+  }, []);
+
+  const handleAddImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const newUrl = URL.createObjectURL(file);
-      setImages((prev) => [newUrl, ...prev]);
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (data.url) {
+        setImages((prev) => [data.url, ...prev]);
+      } else {
+        alert("Erreur upload");
+      }
+    } catch (error) {
+      console.error("Erreur:", error);
+      alert("Erreur lors de l'upload");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -29,7 +61,7 @@ export default function Gallery() {
 
         <label className="flex items-center gap-2 px-4 py-2 bg-[#d4af37]/90 hover:bg-[#d4af37] text-[#5a011a] rounded-lg cursor-pointer font-medium transition">
           <FaPlus />
-          Ajouter une photo
+          {uploading ? "Téléchargement..." : "Ajouter une photo"}
           <input
             type="file"
             accept="image/*"
@@ -56,7 +88,6 @@ export default function Gallery() {
               height={400}
               className="object-cover w-full h-64 group-hover:scale-105 transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-[#5a011a]/20 transition-all duration-300 flex items-center justify-center"></div>
           </motion.div>
         ))}
       </div>

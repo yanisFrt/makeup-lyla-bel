@@ -4,6 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function GalleryWithReviews() {
+  // const [images, setImages] = useState<string[]>([]);
+
+  // useEffect(() => {
+  //   const fetchImages = async () => {
+  //     try {
+  //       const res = await fetch("/api/upload", { cache: "no-store" });
+  //       const data = await res.json();
+  //       if (Array.isArray(data)) {
+  //         setImages(data.reverse());
+  //       }
+  //     } catch (error) {
+  //       console.error("Erreur lors du chargement des images:", error);
+  //     }
+  //   };
+
+  //   fetchImages();
+  // }, []);
   const images = ["makeup.jpg", "makeup1.jpg", "image1.png", "makeuparti.jpg"];
   const reviews = [
     {

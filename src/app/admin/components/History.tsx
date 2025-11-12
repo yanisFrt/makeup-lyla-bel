@@ -1,26 +1,42 @@
-import { useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import { CiCalendar } from "react-icons/ci";
 
 export default function History() {
-  const [selectedTab, setSelectedTab] = useState("accepté");
+  const [selectedTab, setSelectedTab] = useState("en attente");
+  const [reservations, setReservations] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const reservations = [
-    {
-      titre: "Maquillage mariage",
-      status: "accepté",
-      date: "05/11/2025 à 10h00",
-    },
-    {
-      titre: "Shooting photo",
-      status: "refusé",
-      date: "01/11/2025 à 12h00",
-    },
-    {
-      titre: "Maquillage artistique",
-      status: "accepté",
-      date: "08/11/2025 à 09h00",
-    },
-  ];
+  const statusMap: Record<string, string> = {
+    "en attente": "pending",
+    accepté: "accepted",
+    refusé: "declined",
+  };
+
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        setLoading(true);
+        const status = statusMap[selectedTab];
+        const res = await fetch(`/api/reservation?status=${status}`);
+        const data = await res.json();
+
+        if (res.ok) {
+          setReservations(data.reservations || []);
+        } else {
+          console.error("Erreur lors du chargement:", data.error);
+        }
+      } catch (err) {
+        console.error("Erreur de connexion:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReservations();
+  }, [selectedTab]);
+
   return (
     <div>
       <h1 className="md:flex hidden text-3xl font-bold mb-6">
@@ -28,7 +44,7 @@ export default function History() {
       </h1>
 
       <div className="flex space-x-4 mb-6 md:mt-0 mt-7">
-        {["accepté", "refusé"].map((tab) => (
+        {["en attente", "accepté", "refusé"].map((tab) => (
           <button
             key={tab}
             onClick={() => setSelectedTab(tab)}
@@ -44,11 +60,16 @@ export default function History() {
       </div>
 
       <div className="space-y-4">
-        {reservations
-          .filter((res) => res.status === selectedTab)
-          .map((res, i) => (
+        {loading ? (
+          <p className="text-center text-[#d4af37]">Chargement...</p>
+        ) : reservations.length === 0 ? (
+          <p className="text-center text-[#d4af37]">
+            Aucune réservation {selectedTab}.
+          </p>
+        ) : (
+          reservations.map((res) => (
             <div
-              key={i}
+              key={res.id}
               className="w-full p-5 rounded-2xl overflow-hidden 
               border border-[#d4af37] shadow-[0_0_15px_rgba(255,192,203,0.35)]
               hover:shadow-[0_0_30px_rgba(255,192,203,0.55)]
@@ -59,13 +80,20 @@ export default function History() {
               </div>
               <div className="flex justify-between items-center w-full">
                 <div>
-                  <p className="font-medium">{res.titre}</p>
-                  <p>Statut : {res.status}</p>
-                  <p>{res.date}</p>
+                  <p className="font-medium">{res.type_service}</p>
+                  <p>
+                    Statut :{" "}
+                    {selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)}
+                  </p>
+                  <p>
+                    {res.date} à {res.hour}
+                  </p>
+                  <p className="text-sm text-gray-400 mt-1">{res.nom}</p>
                 </div>
               </div>
             </div>
-          ))}
+          ))
+        )}
       </div>
     </div>
   );
