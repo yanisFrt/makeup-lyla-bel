@@ -21,6 +21,12 @@ import About3 from "@/components/About3";
 import Gallery3 from "@/components/Gallery3";
 import Testimonials3 from "@/components/Testimonials3";
 import Footer3 from "./footer3";
+import A7 from "./a7";
+import About4 from "@/components/About4";
+import Prestations2 from "@/components/Prestation2";
+import AboutAndPrestations from "@/components/About4";
+import Gallery4 from "@/components/Gallery4";
+import Footer4 from "./footer4";
 
 export default function Home() {
   const [designIndex, setDesignIndex] = useState(0);
@@ -31,7 +37,13 @@ export default function Home() {
 
   return (
     <div className="relative">
-      <button
+      <A7 />
+      <AboutAndPrestations />
+      {/* <About4 />
+      <Prestations2 /> */}
+      <Gallery4 />
+      <Footer4 />
+      {/* <button
         onClick={handleNextDesign}
         className="fixed bottom-5 right-5 z-[9999] 
         bg-black/70 hover:bg-black text-white 
@@ -41,9 +53,9 @@ export default function Home() {
         title="Changer de design"
       >
         {designIndex}
-      </button>
+      </button> */}
 
-      {designIndex === 0 && (
+      {/* {designIndex === 0 && (
         <>
           <A5 />
           <Services />
@@ -52,9 +64,9 @@ export default function Home() {
           <Testimonials />
           <Footer />
         </>
-      )}
+      )} */}
 
-      {designIndex === 1 && (
+      {/* {designIndex === 1 && (
         <>
           <A3 />
           <About2 />
@@ -62,10 +74,11 @@ export default function Home() {
           <Gallery2 />
           <Testimonials2 />
           <Footer2 />
+          
         </>
-      )}
+      )} */}
 
-      {designIndex === 2 && (
+      {/* {designIndex === 2 && (
         <>
           <A6 />
           <Services2 />
@@ -74,7 +87,7 @@ export default function Home() {
           <Testimonials3 />
           <Footer3 />
         </>
-      )}
+      )} */}
     </div>
   );
 }
