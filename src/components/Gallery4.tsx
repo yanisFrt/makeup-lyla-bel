@@ -43,7 +43,7 @@ export default function GalleryWithReviews() {
           <span className="w-16 h-[2px] mx-auto bg-gradient-to-r from-transparent via-[#c9a063] to-transparent mt-2 block"></span>
         </motion.div>
 
-        <div className="grid w-10/12 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-10 justify-items-center">
+        <div className="grid w-10/12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
           {images.map((src, i) => (
             <motion.div
               key={i}

@@ -13,14 +13,14 @@ export default function AboutAndPrestationsSingle() {
   return (
     <section
       id="about-prestations"
-      className="relative md:h-screen flex flex-col text-center"
+      className="relative lg:h-screen flex flex-col text-center"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="md:flex-[0.3] flex flex-col items-center justify-center bg-[#f8e6d2] "
+        className="lg:flex-[0.3] flex flex-col items-center justify-center bg-[#f8e6d2] "
       >
         <div className="flex flex-col items-center mt-6 mb-4">
           <span className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#c9a063] to-transparent mb-2"></span>
@@ -54,9 +54,9 @@ export default function AboutAndPrestationsSingle() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.1 }}
         viewport={{ once: true }}
-        className="w-full justify-center  flex bg-white md:flex-[0.7] md:mb-0 mb-6 flex-col items-center"
+        className="w-full justify-center  flex bg-white lg:flex-[0.7] lg:mb-0 mb-6 flex-col items-center"
       >
-        <div className="flex flex-col items-center mb-4">
+        <div className="flex flex-col items-center my-4">
           <span className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#c9a063] to-transparent mb-2"></span>
           <h2 className="text-2xl md:text-4xl font-serif font-bold text-[#5A002E] drop-shadow-[0_0_10px_rgba(0,0,0,0.1)] relative">
             Prestations
@@ -64,7 +64,7 @@ export default function AboutAndPrestationsSingle() {
           <span className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#c9a063] to-transparent mt-2"></span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 w-10/12 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 w-10/12 mb-8">
           {services.map((service, index) => (
             <motion.div
               key={index}
