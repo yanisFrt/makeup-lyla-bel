@@ -1,33 +1,59 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
-export async function POST(req: Request) {
+export async function GET() {
   try {
-    const { name, email, phone, address, services } = await req.json();
+    const profile = await prisma.userProfile.findUnique({
+      where: { id: 1 },
+    });
 
-    if (!name || !email) {
-      return NextResponse.json({ error: "Nom et email obligatoires" }, { status: 400 });
+    if (!profile) {
+      return NextResponse.json(
+        { error: "Profil introuvable" },
+        { status: 404 }
+      );
     }
 
-    const servicesJson = JSON.stringify(services);
-
-    const existing = await prisma.userProfile.findUnique({ where: { id: 1 } });
-
-    let profile;
-    if (existing) {
-      profile = await prisma.userProfile.update({
-        where: { id: 1 },
-        data: { name, email, phone, address, services: servicesJson },
-      });
-    } else {
-      profile = await prisma.userProfile.create({
-        data: { id: 1, name, email, phone, address, services: servicesJson },
-      });
-    }
-
-    return NextResponse.json({ message: "Profil sauvegardé", profile }, { status: 200 });
+    return NextResponse.json({ profile });
   } catch (err: any) {
-    console.error(err);
-    return NextResponse.json({ error: "Erreur serveur", details: err.message }, { status: 500 });
+    console.error("GET PROFILE ERROR:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+export async function PATCH(req: Request) {
+  try {
+    const body = await req.json();
+    const { phone, address, services } = body;
+
+    // Vérifier si profil existe
+    const existing = await prisma.userProfile.findUnique({
+      where: { id: 1 },
+    });
+
+    if (!existing) {
+      return NextResponse.json(
+        { error: "Profil introuvable" },
+        { status: 404 }
+      );
+    }
+
+    // Mettre à jour
+    const updated = await prisma.userProfile.update({
+      where: { id: 1 },
+      data: {
+        phone,
+        address,
+        services, 
+      },
+    });
+
+    return NextResponse.json({
+      message: "Profil mis à jour",
+      profile: updated,
+    });
+  } catch (err: any) {
+    console.error("PATCH PROFILE ERROR:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

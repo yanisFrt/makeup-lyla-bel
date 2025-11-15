@@ -16,3 +16,6 @@ npx prisma studio
 
 ## Reset complet (efface toutes les données + recrée la DB)
 npx prisma migrate reset
+
+
+# MOT DE PASSE ADMIN = 12345

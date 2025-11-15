@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { Readable } from "stream";
 
+//  Désactive le bodyParser de Next.js car formidable gère le parsing des fichiers
 export const config = {
   api: { bodyParser: false },
 };
@@ -15,7 +16,9 @@ if (!fs.existsSync(uploadDir)) {
 }
 export async function GET() {
   try {
+    // Lire tous les fichiers dans le dossier d’upload
     const files = fs.readdirSync(uploadDir);
+    // créer des URLs accessibles côté client
     const urls = files.map((file) => `/uploads/${file}`);
     return NextResponse.json(urls);
   } catch (error) {
@@ -29,24 +32,30 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+
+    //Récupérer le body brut sous forme de ArrayBuffer
     const data = await req.arrayBuffer();
     const buffer = Buffer.from(data);
-
+  // Configuration de formidable
     const form = formidable({
-      multiples: false,
+      multiples: false,//  pas de multiples fichiers
       uploadDir,
-      keepExtensions: true,
+      keepExtensions: true, // conserver l'extension du fichier
       filename: (name, ext, part, form) => {
+        //  Renommer le fichier pour éviter les collisions
         return `${Date.now()}-${part.originalFilename}`;
       },
     });
 
-    // Crée un flux lisible à partir du buffer
-    const mockReq: any = new Readable();
-    mockReq.push(buffer);
-    mockReq.push(null);
+//On crée un flux lisible à partir du buffer pour que formidable puisse le parser  
+
+  const mockReq: any = new Readable();
+    mockReq.push(buffer); // ajouter les données
+    mockReq.push(null); // signaler la fin du flux
     mockReq.headers = Object.fromEntries(req.headers.entries());
 
+
+        //  On parse le flux comme un formulaire
     const { files } = await new Promise<{ fields: any; files: any }>(
       (resolve, reject) => {
         form.parse(mockReq, (err, fields, files) => {
@@ -67,7 +76,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-
+    // Récupérer le nom du fichier et créer l’URL accessible côté client
     const fileName = path.basename(uploadedFile.filepath);
     const fileUrl = `/uploads/${fileName}`;
 

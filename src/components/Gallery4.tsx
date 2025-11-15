@@ -2,26 +2,37 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function GalleryWithReviews() {
-  // const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<string[]>([]);
+  const defaultImages = [
+    "/makeup.jpg",
+    "/makeup1.jpg",
+    "/image1.png",
+    "/makeuparti.jpg",
+  ];
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch("/api/upload", { cache: "no-store" });
+        const data = await res.json();
 
-  // useEffect(() => {
-  //   const fetchImages = async () => {
-  //     try {
-  //       const res = await fetch("/api/upload", { cache: "no-store" });
-  //       const data = await res.json();
-  //       if (Array.isArray(data)) {
-  //         setImages(data.reverse());
-  //       }
-  //     } catch (error) {
-  //       console.error("Erreur lors du chargement des images:", error);
-  //     }
-  //   };
+        //  Si data est un tableau et contient des images
+        if (Array.isArray(data) && data.length > 0) {
+          setImages(data.reverse());
+        } else {
+          setImages(defaultImages);
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des images:", error);
+        setImages(defaultImages);
+      }
+    };
 
-  //   fetchImages();
-  // }, []);
-  const images = ["makeup.jpg", "makeup1.jpg", "image1.png", "makeuparti.jpg"];
+    fetchImages();
+  }, []);
+
   const reviews = [
     {
       name: "Sophie L.",
@@ -77,7 +88,7 @@ export default function GalleryWithReviews() {
               transition-all duration-300"
               >
                 <Image
-                  src={`/${src}`}
+                  src={src}
                   alt={`Gallery ${i + 1}`}
                   fill
                   className="object-cover"

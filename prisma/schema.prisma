@@ -27,15 +27,16 @@ model Reservation {
   status       ReservationStatus @default(pending)
 }
 model UserProfile {
-  id        Int      @id @default(autoincrement())
+  id        Int      @id @default(1)
   name      String
   email     String
-  phone     String
-  address   String
-  services  String   @default("[]") // tableau JSON
+  phone     String?
+  address   String?
+  services  Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 
 
 

@@ -1,17 +1,34 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
-
-const images = [
-  { src: "/bridal.png", alt: "Maquillage de mariée" },
-  { src: "/bridal2.png", alt: "Maquillage glamour" },
-  { src: "/image1.png", alt: "Soft glam nude" },
-  { src: "/makeup.jpg", alt: "Maquillage soirée" },
-  { src: "/makeup2.jpg", alt: "Shooting beauté" },
-  { src: "/makeuparti.jpg", alt: "Maquillage naturel" },
-];
+import { useEffect, useState } from "react";
 
 export default function Gallery() {
+  const [images, setImages] = useState<string[]>([]);
+  const defaultImages = [
+    "/makeup.jpg",
+    "/makeup1.jpg",
+    "/image1.png",
+    "/makeuparti.jpg",
+  ];
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch("/api/upload", { cache: "no-store" });
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setImages(data.reverse());
+        } else {
+          setImages(defaultImages);
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des images:", error);
+        setImages(defaultImages);
+      }
+    };
+
+    fetchImages();
+  }, []);
   return (
     <section className="min-h-screen bg-[#5a011a] text-[#f8e6d2] py-16 px-8 md:px-32">
       <motion.div
@@ -32,30 +49,30 @@ export default function Gallery() {
       </motion.div>
 
       <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {images.map((image, index) => (
+        {images.map((src, i) => (
           <motion.div
-            key={index}
+            key={i}
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
             className="group relative rounded-2xl overflow-hidden 
               border-[3px] border-[#eac8d9] shadow-[0_0_15px_rgba(255,192,203,0.35)]
               hover:shadow-[0_0_30px_rgba(255,192,203,0.55)]
               transition-all duration-300"
           >
             <Image
-              src={image.src}
-              alt={image.alt}
+              src={src}
+              alt={`Image ${i + 1}`}
               width={500}
               height={600}
               className="object-cover w-full h-80 transition-all duration-500 group-hover:scale-110"
             />
 
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#5a002ea6] opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
+            {/* <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#5a002ea6] opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
               <p className="text-white font-medium tracking-wide">
-                {image.alt}
+                {src.alt}
               </p>
-            </div>
+            </div> */}
           </motion.div>
         ))}
       </div>
