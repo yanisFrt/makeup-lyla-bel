@@ -4,7 +4,8 @@ import FormInput from "@/components/contactComponent/FormInput";
 import ServiceDropdown from "@/components/contactComponent/ServiceDropdown";
 import SubmitButton from "@/components/contactComponent/SubmitButton";
 import { motion } from "framer-motion";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+
 interface FormData {
   name: string;
   phone: string;
@@ -15,12 +16,7 @@ interface FormData {
   hour: string;
   message: string;
 }
-const services = [
-  "Maquillage Mariée",
-  "Maquillage Soirée",
-  "Maquillage Naturel",
-  "Maquillage Jour",
-];
+
 export default function Contact() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -33,8 +29,35 @@ export default function Contact() {
     message: "",
   });
 
+  const [servicesList, setServicesList] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+
+  const fetchProfile = async () => {
+    try {
+      const res = await fetch("/api/profile");
+      const data = await res.json();
+
+      if (res.ok && data.profile) {
+        setServicesList(
+          Array.isArray(data.profile.services) ? data.profile.services : []
+        );
+      } else {
+        setServicesList([]);
+      }
+    } catch (err) {
+      console.error("Erreur fetch profile:", err);
+      setServicesList([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -67,7 +90,6 @@ export default function Contact() {
         alert("Erreur lors de l'envoi du formulaire");
       } else {
         setSent(true);
-
         setFormData({
           name: "",
           phone: "",
@@ -78,7 +100,6 @@ export default function Contact() {
           hour: "",
           message: "",
         });
-
         setTimeout(() => setSent(false), 2000);
       }
     } catch (error) {
@@ -121,7 +142,7 @@ export default function Contact() {
               onChange={handleChange}
             />
             <ServiceDropdown
-              services={services}
+              services={servicesList}
               selected={formData.type_service}
               setSelected={(service) =>
                 setFormData({ ...formData, type_service: service })
@@ -139,14 +160,14 @@ export default function Contact() {
               type="date"
               value={formData.date}
               onChange={handleChange}
-              placeholder={""}
+              placeholder=""
             />
             <FormInput
               name="hour"
               type="time"
               value={formData.hour}
               onChange={handleChange}
-              placeholder={""}
+              placeholder=""
             />
             <FormInput
               name="message"
