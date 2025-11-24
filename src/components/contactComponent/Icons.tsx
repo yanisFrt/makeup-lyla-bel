@@ -8,7 +8,15 @@ import {
 import { FiMapPin } from "react-icons/fi";
 import { LuUserRound } from "react-icons/lu";
 
-const Icon = ({ name, size = 22, color = "#D4AF37" }) => {
+const Icon = ({
+  name,
+  size = 22,
+  color = "#D4AF37"
+}: {
+  name: string;
+  size?: number;
+  color?: string;
+}) => {
   const props = { size, color };
 
   switch (name) {

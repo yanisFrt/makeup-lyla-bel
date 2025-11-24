@@ -3,9 +3,22 @@
 import { useEffect, useState } from "react";
 import { CiCalendar } from "react-icons/ci";
 
+interface Reservation {
+  id: number;
+  nom: string;
+  phone: string;
+  email?: string;
+  type_service: string;
+  adresse: string;
+  date: string;
+  hour: string;
+  other_info?: string;
+  status: "pending" | "accepted" | "declined";
+}
+
 export default function History() {
   const [selectedTab, setSelectedTab] = useState("en attente");
-  const [reservations, setReservations] = useState<any[]>([]);
+  const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(false);
 
   const statusMap: Record<string, string> = {

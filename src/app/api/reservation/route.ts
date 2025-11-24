@@ -75,11 +75,11 @@ export async function GET(req: Request) {
       },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("❌ Erreur API GET /reservation:", error);
-
+    const details = error instanceof Error ? error.message : "Une erreur est survenue";
     return NextResponse.json(
-      { error: "Erreur serveur", details: error.message },
+      { error: "Erreur serveur", details },
       { status: 500 }
     );
   }
@@ -122,11 +122,11 @@ export async function POST(req: Request) {
       { message: "✅ Réservation enregistrée avec succès", reservation },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("❌ Erreur API POST /reservation:", error);
-
+    const details = error instanceof Error ? error.message : "Une erreur est survenue";
     return NextResponse.json(
-      { error: "Erreur serveur", details: error.message }, 
+      { error: "Erreur serveur", details },
       { status: 500 }
     );
   }
@@ -225,11 +225,11 @@ export async function PATCH(req: Request) {
       },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("❌ Erreur API PATCH /reservation:", error);
-
+    const details = error instanceof Error ? error.message : "Une erreur est survenue";
     return NextResponse.json(
-      { error: "Erreur serveur", details: error.message },
+      { error: "Erreur serveur", details },
       { status: 500 }
     );
   }

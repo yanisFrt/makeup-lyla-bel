@@ -15,9 +15,10 @@ export async function GET() {
     }
 
     return NextResponse.json({ profile });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("GET PROFILE ERROR:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    const message = err instanceof Error ? err.message : "Une erreur est survenue";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -52,8 +53,9 @@ export async function PATCH(req: Request) {
       message: "Profil mis à jour",
       profile: updated,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("PATCH PROFILE ERROR:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    const message = err instanceof Error ? err.message : "Une erreur est survenue";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

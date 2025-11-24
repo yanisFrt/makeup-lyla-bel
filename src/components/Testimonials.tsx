@@ -47,7 +47,7 @@ export default function Testimonials() {
             Ce que disent mes clientes
           </h2>
           <p className="text-gray-100 md:text-lg mt-4 md:w-6/12 mx-auto">
-            Des avis sincères et authentiques de femmes ayant vécu l'expérience
+            Des avis sincères et authentiques de femmes ayant vécu l&apos;expérience
             de mes prestations.
           </p>
         </motion.div>

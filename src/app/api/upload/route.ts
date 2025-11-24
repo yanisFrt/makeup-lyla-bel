@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import formidable, { File } from "formidable";
+import formidable, { Fields, Files } from "formidable";
 import fs from "fs";
 import path from "path";
 import { Readable } from "stream";
+import { IncomingMessage } from "http";
 
 //  Désactive le bodyParser de Next.js car formidable gère le parsing des fichiers
 export const config = {
@@ -47,16 +48,16 @@ export async function POST(req: Request) {
       },
     });
 
-//On crée un flux lisible à partir du buffer pour que formidable puisse le parser  
+//On crée un flux lisible à partir du buffer pour que formidable puisse le parser
 
-  const mockReq: any = new Readable();
+  const mockReq = new Readable() as unknown as IncomingMessage;
     mockReq.push(buffer); // ajouter les données
     mockReq.push(null); // signaler la fin du flux
-    mockReq.headers = Object.fromEntries(req.headers.entries());
+    (mockReq as unknown as { headers: Record<string, string | string[]> }).headers = Object.fromEntries(req.headers.entries());
 
 
         //  On parse le flux comme un formulaire
-    const { files } = await new Promise<{ fields: any; files: any }>(
+    const { files } = await new Promise<{ fields: Fields; files: Files }>(
       (resolve, reject) => {
         form.parse(mockReq, (err, fields, files) => {
           if (err) reject(err);

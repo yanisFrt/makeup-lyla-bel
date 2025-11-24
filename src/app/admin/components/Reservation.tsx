@@ -12,10 +12,11 @@ import {
 import {
   getReservations,
   updateReservationStatus,
+  type Reservation,
 } from "@/app/utils/reservationApi";
 
 export default function Reservation() {
-  const [reservations, setReservations] = useState<any[]>([]);
+  const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchPendingReservations = async () => {
