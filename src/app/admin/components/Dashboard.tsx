@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { CiCalendar } from "react-icons/ci";
-import { getReservations, Reservation } from "@/app/utils/reservationApi";
+import { getReservations, Reservation, updateReservationStatus } from "@/app/utils/reservationApi";
 
 interface DashboardProps {
   setActiveSection: (section: string) => void;
@@ -15,7 +15,26 @@ export default function Dashboard({ setActiveSection }: DashboardProps) {
   );
   const [loading, setLoading] = useState(false);
 
-  const images = ["makeup.jpg", "image1.png", "logoM.png", "makeup.jpg"];
+  const [images, setImages] = useState<string[]>([]);
+  const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
+  const [processing, setProcessing] = useState(false);
+  
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch("/api/upload", { cache: "no-store" });
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setImages(data.reverse());
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des images:", error);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   useEffect(() => {
     const fetchPending = async () => {
@@ -27,6 +46,26 @@ export default function Dashboard({ setActiveSection }: DashboardProps) {
     fetchPending();
   }, []);
 
+  const fetchPendingReservations = async () => {
+    setLoading(true);
+    const data = await getReservations("pending");
+    setPendingReservations(data.slice(0, 2));
+    setLoading(false);
+  };
+  
+  const handleAction = async (id: number, action: "accepted" | "declined") => {
+    setProcessing(true);
+    try {
+      await updateReservationStatus(id, action);
+      await fetchPendingReservations();
+      setSelectedReservation(null);
+    } catch (err) {
+      console.error("Erreur action:", err);
+    } finally {
+      setProcessing(false);
+    }
+  };
+  
   return (
     <div>
       <h1 className="hidden md:flex md:text-3xl text-xl font-bold mb-6 text-[#f8e6d2]">
@@ -52,6 +91,7 @@ export default function Dashboard({ setActiveSection }: DashboardProps) {
           pendingReservations.map((r) => (
             <div
               key={r.id}
+              onClick={() => setSelectedReservation(r)}
               className="w-full p-5 rounded-2xl overflow-hidden 
                     border border-[#d4af37] shadow-[0_0_15px_rgba(255,192,203,0.35)]
                     hover:shadow-[0_0_30px_rgba(255,192,203,0.55)]
@@ -95,7 +135,7 @@ export default function Dashboard({ setActiveSection }: DashboardProps) {
         </div>
 
         <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
-          {images.map((src, i) => (
+        {images.slice(0, 4).map((src, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
@@ -111,7 +151,7 @@ export default function Dashboard({ setActiveSection }: DashboardProps) {
                       transition-all duration-300"
               >
                 <Image
-                  src={`/${src}`}
+                 src={src}
                   alt={`Gallery ${i + 1}`}
                   fill
                   className="object-cover"
@@ -121,6 +161,60 @@ export default function Dashboard({ setActiveSection }: DashboardProps) {
           ))}
         </div>
       </div>
+      {selectedReservation && (
+  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="relative bg-[#fff8f4] w-11/12 max-w-lg p-6 rounded-2xl shadow-2xl border border-[#d4af37]"
+    >
+      {/* --- Bouton fermer X --- */}
+      <button
+        onClick={() => setSelectedReservation(null)}
+        className="absolute top-4 right-4 text-[#5a011a] hover:text-red-600 transition text-xl"
+      >
+        ✕
+      </button>
+
+      <h2 className="text-2xl font-bold mb-5 text-center text-[#5a011a]">
+        Détails de la réservation
+      </h2>
+
+      <div className="space-y-2 text-sm text-[#5a011a]">
+        <p><b>Nom :</b> {selectedReservation.nom}</p>
+        <p><b>Téléphone :</b> {selectedReservation.phone}</p>
+        <p><b>Email :</b> {selectedReservation.email}</p>
+        <p><b>Service :</b> {selectedReservation.type_service}</p>
+        <p><b>Date :</b> {selectedReservation.date} à {selectedReservation.hour}</p>
+        <p><b>Adresse :</b> {selectedReservation.adresse}</p>
+        <p><b>Message :</b> {selectedReservation.other_info || "Aucun"}</p>
+      </div>
+
+      {/* --- Boutons --- */}
+      <div className="flex justify-between mt-6 gap-4">
+        <button
+          onClick={() => handleAction(selectedReservation.id, "declined")}
+          disabled={processing}
+          className="flex-1 px-4 py-2 rounded-xl border border-red-600 text-red-600
+                     hover:bg-red-600 hover:text-white transition font-semibold"
+        >
+          {processing ? "..." : "Refuser"}
+        </button>
+
+        <button
+          onClick={() => handleAction(selectedReservation.id, "accepted")}
+          disabled={processing}
+          className="flex-1 px-4 py-2 rounded-xl border border-green-600 text-green-600
+                     hover:bg-green-600 hover:text-white transition font-semibold"
+        >
+          {processing ? "..." : "Accepter"}
+        </button>
+      </div>
+    </motion.div>
+  </div>
+)}
+
+
     </div>
   );
 }

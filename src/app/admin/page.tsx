@@ -15,7 +15,8 @@ export default function Home() {
         activeSection={activeSection}
         setActiveSection={setActiveSection}
       />
-      <main className="flex-1 p-10 text-[#f8e6d2] bg-[#5a011a]">
+      <main className="flex-1 p-10 text-[#f8e6d2] bg-[#5a011a] h-screen overflow-y-auto">
+
         {activeSection === "dashboard" && (
           <Dashboard setActiveSection={setActiveSection} />
         )}
