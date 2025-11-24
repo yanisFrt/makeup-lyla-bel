@@ -1,11 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   const navItems = [
     { label: "Accueil", href: "/" },
@@ -14,6 +17,33 @@ const Navbar = () => {
     { label: "Galerie", href: "#gallery" },
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+
+    if (menuOpen) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
+    };
+  }, [menuOpen]);
+
   return (
     <>
       {/* Desktop & Mobile Navbar */}
@@ -21,29 +51,42 @@ const Navbar = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.6 }}
-        className="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-sm shadow-sm"
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-white shadow-md py-2"
+            : "bg-white/95 backdrop-blur-sm shadow-sm py-0"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 md:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center">
-              <h1 className="font-serif text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#cdb154] via-[#fce7b0] to-[#fde87c] bg-clip-text text-transparent drop-shadow-lg">
+              <h1 className={`font-serif font-bold bg-gradient-to-r from-[#cdb154] via-[#fce7b0] to-[#fde87c] bg-clip-text text-transparent drop-shadow-lg transition-all duration-300 ${
+                scrolled ? "text-xl md:text-2xl" : "text-2xl md:text-3xl"
+              }`}>
                 LYLA BEL
               </h1>
             </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-[#5a011a] font-medium hover:text-[#d4af37] transition-colors duration-300 relative group"
-                >
-                  {item.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#d4af37] to-[#fce7b0] group-hover:w-full transition-all duration-300"></span>
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                const isActive = pathname === item.href || (item.href.startsWith("#") && pathname === "/");
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`font-medium transition-colors duration-300 relative group ${
+                      isActive ? "text-[#d4af37]" : "text-[#5a011a] hover:text-[#d4af37]"
+                    }`}
+                  >
+                    {item.label}
+                    <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-[#d4af37] to-[#fce7b0] transition-all duration-300 ${
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`}></span>
+                  </Link>
+                );
+              })}
               <Link href="/contact">
                 <motion.button
                   whileHover={{ scale: 1.05 }}

@@ -27,29 +27,51 @@ export default function A7() {
         />
       </motion.div>
 
-      <div className="h-full flex items-center justify-center text-center px-6">
+      <div className="h-full flex items-center justify-center text-center px-6 relative">
         <motion.div
-          initial={{ opacity: 0, y: 40, filter: "blur(6px)" }}
+          initial={{ opacity: 0, y: 40, filter: "blur(4px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1, delay: 0.6 }}
           className="max-w-3xl"
         >
-          <h1 className="text-5xl font-serif italic md:text-7xl font-extrabold md:mb-6 mb-14 bg-gradient-to-r from-[#d4af37] via-[#fce7b0] to-[#fff7d1] bg-clip-text text-transparent drop-shadow-lg">
-            B
-          </h1>
-          <h1 className=" font-serif md:text-8xl text-2xl mb-6 bg-gradient-to-r from-[#cdb154] via-[#fce7b0] to-[#fde87c] bg-clip-text text-transparent drop-shadow-lg">
+          <h1 className="font-serif md:text-8xl text-5xl mb-6 bg-gradient-to-r from-[#cdb154] via-[#fce7b0] to-[#fde87c] bg-clip-text text-transparent drop-shadow-lg">
             LYLA BEL
           </h1>
-          <h1 className="text-4xl font-serif   mb-6 bg-gradient-to-r from-[#e6ca6e] via-[#fce7b0] to-[#fff7d1] bg-clip-text text-transparent drop-shadow-lg">
+          <h2 className="text-3xl md:text-4xl font-serif mb-8 bg-gradient-to-r from-[#e6ca6e] via-[#fce7b0] to-[#fff7d1] bg-clip-text text-transparent drop-shadow-lg">
             Makeup Artist
-          </h1>
-          {/* <motion.button
+          </h2>
+          <motion.a
+            href="#about-prestations"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.2 }}
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.97 }}
-            className="bg-gradient-to-r from-[#D4AF37] to-[#fddf83] text-black px-14 py-3 text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl transition-transform"
+            className="inline-block relative overflow-hidden bg-gradient-to-r from-[#D4AF37] to-[#fddf83] text-black px-14 py-4 text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl transition-all group"
           >
-            <a href="#about">Découvrir</a>
-          </motion.button> */}
+            <span className="relative z-10">Découvrir</span>
+            <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/40 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
+          </motion.a>
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.8 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <motion.a
+            href="#about-prestations"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="flex flex-col items-center gap-2 text-[#fce7b0] hover:text-[#d4af37] transition-colors cursor-pointer"
+          >
+            <span className="text-sm font-light">Scroll</span>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </motion.a>
         </motion.div>
       </div>
     </main>

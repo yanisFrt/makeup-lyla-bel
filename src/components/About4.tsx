@@ -4,10 +4,10 @@ import Image from "next/image";
 
 export default function AboutAndPrestationsSingle() {
   const services = [
-    { title: "Maquillage Jour", image: "/logoM.png" },
-    { title: "Maquillage Soirée", image: "/bridal2.png" },
-    { title: "Maquillage Mariée", image: "/image1.png" },
-    { title: "Maquillage Naturel", image: "/makeuparti.jpg" },
+    { title: "Maquillage Jour", image: "/logoM.png", price: "À partir de 80€", icon: "" },
+    { title: "Maquillage Soirée", image: "/bridal2.png", price: "À partir de 120€", icon: "" },
+    { title: "Maquillage Mariée", image: "/image1.png", price: "À partir de 250€", icon: "" },
+    { title: "Maquillage Naturel", image: "/makeuparti.jpg", price: "À partir de 70€", icon: "" },
   ];
 
   return (
@@ -64,7 +64,7 @@ export default function AboutAndPrestationsSingle() {
           <span className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#c9a063] to-transparent mt-2"></span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 w-10/12 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 w-full max-w-7xl px-6 mb-8">
           {services.map((service, index) => (
             <motion.div
               key={index}
@@ -72,24 +72,30 @@ export default function AboutAndPrestationsSingle() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="flex flex-col items-center"
+              className="group flex flex-col items-center w-full"
             >
               <div
-                className="w-56 h-52 relative rounded-2xl overflow-hidden 
-                border-[3px] border-[#eac8d9] shadow-[0_0_15px_rgba(255,192,203,0.35)]
-                hover:shadow-[0_0_30px_rgba(255,192,203,0.55)]
-                transition-all duration-300"
+                className="w-full aspect-[3/4] relative rounded-3xl overflow-hidden
+                border-[3px] border-[#eac8d9] shadow-[0_8px_24px_rgba(212,175,55,0.15)]
+                hover:shadow-[0_12px_40px_rgba(212,175,55,0.3)]
+                transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1"
               >
                 <Image
                   src={service.image}
                   alt={service.title}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#5A002E]/70 via-[#5A002E]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
-              <h3 className="text-lg font-semibold text-[#5A002E] mt-4">
-                {service.title}
-              </h3>
+              <div className="mt-4 text-center">
+                <h3 className="text-base md:text-lg font-semibold text-[#5A002E]">
+                  {service.title}
+                </h3>
+                <p className="text-sm md:text-base text-[#d4af37] font-medium mt-1">
+                  {service.price}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>
