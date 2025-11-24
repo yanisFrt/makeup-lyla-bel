@@ -72,7 +72,7 @@ export default function GalleryWithReviews() {
         </motion.div>
 
         <div className="grid w-10/12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
-          {images.map((src, i) => (
+        {images.slice(0, 4).map((src, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}

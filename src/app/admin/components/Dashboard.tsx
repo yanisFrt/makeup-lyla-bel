@@ -15,7 +15,24 @@ export default function Dashboard({ setActiveSection }: DashboardProps) {
   );
   const [loading, setLoading] = useState(false);
 
-  const images = ["makeup.jpg", "image1.png", "logoM.png", "makeup.jpg"];
+  const [images, setImages] = useState<string[]>([]);
+
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch("/api/upload", { cache: "no-store" });
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setImages(data.reverse());
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des images:", error);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   useEffect(() => {
     const fetchPending = async () => {
@@ -95,7 +112,7 @@ export default function Dashboard({ setActiveSection }: DashboardProps) {
         </div>
 
         <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
-          {images.map((src, i) => (
+        {images.slice(0, 4).map((src, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
@@ -111,7 +128,7 @@ export default function Dashboard({ setActiveSection }: DashboardProps) {
                       transition-all duration-300"
               >
                 <Image
-                  src={`/${src}`}
+                 src={src}
                   alt={`Gallery ${i + 1}`}
                   fill
                   className="object-cover"

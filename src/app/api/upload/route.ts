@@ -92,3 +92,38 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const fileName = searchParams.get("file");
+
+    if (!fileName) {
+      return NextResponse.json(
+        { error: "Paramètre 'file' manquant" },
+        { status: 400 }
+      );
+    }
+
+    const filePath = path.join(uploadDir, fileName);
+
+    if (!fs.existsSync(filePath)) {
+      return NextResponse.json(
+        { error: "Fichier introuvable" },
+        { status: 404 }
+      );
+    }
+
+    fs.unlinkSync(filePath);
+
+    return NextResponse.json({
+      message: `Fichier '${fileName}' supprimé avec succès`,
+    });
+  } catch (err) {
+    console.error("Erreur DELETE:", err);
+    return NextResponse.json(
+      { error: "Erreur lors de la suppression" },
+      { status: 500 }
+    );
+  }
+}
