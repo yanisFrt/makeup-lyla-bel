@@ -71,7 +71,7 @@ export default function GalleryWithReviews() {
           <span className="w-16 h-[2px] mx-auto bg-gradient-to-r from-transparent via-[#c9a063] to-transparent mt-2 block"></span>
         </motion.div>
 
-        <div className="grid w-10/12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
+        <div className="grid w-full max-w-7xl px-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {images.slice(0, 4).map((src, i) => (
             <motion.div
               key={i}
@@ -79,20 +79,21 @@ export default function GalleryWithReviews() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: i * 0.1 }}
-              className="flex flex-col items-center"
+              className="group flex flex-col items-center w-full"
             >
               <div
-                className="w-60 h-52 relative rounded-2xl overflow-hidden 
-              border-[3px] border-[#eac8d9] shadow-[0_0_15px_rgba(255,192,203,0.35)]
-              hover:shadow-[0_0_30px_rgba(255,192,203,0.55)]
-              transition-all duration-300"
+                className="w-full aspect-[4/5] relative rounded-3xl overflow-hidden
+              border-[3px] border-[#eac8d9] shadow-[0_8px_24px_rgba(212,175,55,0.2)]
+              hover:shadow-[0_12px_40px_rgba(212,175,55,0.4)]
+              transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1"
               >
                 <Image
                   src={src}
                   alt={`Gallery ${i + 1}`}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#5A002E]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             </motion.div>
           ))}
@@ -121,7 +122,7 @@ export default function GalleryWithReviews() {
           <span className="w-16 h-[2px] mx-auto bg-gradient-to-r from-transparent via-[#c9a063] to-transparent block"></span>
         </motion.div>
 
-        <div className="grid w-2/3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-items-center">
+        <div className="grid w-full max-w-6xl px-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
           {reviews.map((review, index) => (
             <motion.div
               key={index}
@@ -129,21 +130,31 @@ export default function GalleryWithReviews() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-white rounded-2xl p-5 shadow-[0_4px_12px_rgba(212,175,55,0.25)] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] transition-all"
+              className="group bg-white rounded-3xl p-6 md:p-8 min-h-[180px] flex flex-col
+              shadow-[0_8px_24px_rgba(212,175,55,0.15)] hover:shadow-[0_12px_40px_rgba(212,175,55,0.3)]
+              transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 w-full"
             >
-              <div className="flex items-center mb-3">
-                <Image
-                  src={review.avatar}
-                  alt={review.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full object-cover mr-3"
-                />
-                <h4 className="font-semibold text-[#5A002E]">{review.name}</h4>
+              <div className="flex items-center mb-4">
+                <div className="relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-[#eac8d9] group-hover:ring-[#d4af37] transition-all duration-300">
+                  <Image
+                    src={review.avatar}
+                    alt={review.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h4 className="font-semibold text-[#5A002E] ml-3 text-base md:text-lg">{review.name}</h4>
               </div>
-              <p className="text-[#4b0030] text-sm leading-relaxed">
+              <p className="text-[#4b0030] text-sm md:text-base leading-relaxed flex-grow">
                 {review.text}
               </p>
+              <div className="flex gap-1 mt-4 text-[#d4af37]">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-4 h-4 md:w-5 md:h-5 fill-current" viewBox="0 0 20 20">
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                  </svg>
+                ))}
+              </div>
             </motion.div>
           ))}
         </div>
