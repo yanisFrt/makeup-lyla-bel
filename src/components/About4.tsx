@@ -13,7 +13,7 @@ export default function AboutAndPrestationsSingle() {
   return (
     <section
       id="about-prestations"
-      className="relative lg:h-screen flex flex-col text-center"
+      className="relative lg:h-screen flex flex-col text-center scroll-mt-20"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}

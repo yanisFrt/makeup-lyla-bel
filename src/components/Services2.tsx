@@ -4,8 +4,8 @@ import { useState } from "react";
 import { FaCrown, FaSpa, FaHeart } from "react-icons/fa";
 
 export default function Services2() {
-  const tabs = ["Bridal", "Special Occasion", "Makeup Lessons"];
-  const [activeTab, setActiveTab] = useState("Bridal");
+  const tabs = ["Bridal", "Special Occasion", "Makeup Lessons"] as const;
+  const [activeTab, setActiveTab] = useState<"Bridal" | "Special Occasion" | "Makeup Lessons">("Bridal");
 
   const servicesData = {
     Bridal: [

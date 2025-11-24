@@ -17,11 +17,11 @@ export default function Contact() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSending(true);
     await new Promise((r) => setTimeout(r, 900));
@@ -31,7 +31,7 @@ export default function Contact() {
     console.log("Envoi form: ", formData);
   };
 
-  const Icon = ({ name }) => {
+  const Icon = ({ name }: { name: string }) => {
     const base = "w-5 h-5 flex-none";
     switch (name) {
       case "user":
@@ -305,7 +305,7 @@ export default function Contact() {
         transition={{ duration: 0.7, delay: 0.2 }}
       >
         <h3 className="text-3xl font-serif font-bold mb-4">
-          Contact pour plus d'information
+          Contact pour plus d&apos;information
         </h3>
         <p className="text-lg leading-relaxed mb-6">
           Je suis Makeup Artist spécialisée dans les mariages et événements,

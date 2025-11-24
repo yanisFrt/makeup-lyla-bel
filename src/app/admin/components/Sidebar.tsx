@@ -11,7 +11,12 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
-export default function Sidebar({ activeSection, setActiveSection }: any) {
+interface SidebarProps {
+  activeSection: string;
+  setActiveSection: (section: string) => void;
+}
+
+export default function Sidebar({ activeSection, setActiveSection }: SidebarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const menuItems = [
