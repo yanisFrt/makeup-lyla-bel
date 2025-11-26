@@ -51,7 +51,8 @@ DATABASE_URL=mysql://user:password@host:3306/database
 Les paramètres suivants sont déjà configurés dans `netlify.toml` :
 - **Build command:** `npm run build`
 - **Publish directory:** `.next`
-- **Plugin:** `@netlify/plugin-nextjs`
+
+**Note:** Le plugin `@netlify/plugin-nextjs` n'est PAS nécessaire pour Next.js 15. Netlify détecte automatiquement Next.js et gère correctement le SSR et les API routes.
 
 ### 5. Déployer
 
@@ -104,20 +105,35 @@ Pour redéployer manuellement :
 
 ## Dépannage
 
+### Erreur "Plugin @netlify/plugin-nextjs failed"
+
+**Solution:** Ce plugin n'est pas nécessaire pour Next.js 15. Supprimez-le :
+```bash
+npm uninstall @netlify/plugin-nextjs
+```
+Et supprimez la section `[[plugins]]` de votre `netlify.toml` si elle existe.
+
 ### Erreur de build
 
 Vérifiez les logs de build dans l'onglet **Deploys** → Cliquez sur le déploiement → **Deploy log**
 
+Vérifiez que :
+- Le répertoire `publish` dans `netlify.toml` correspond au `distDir` dans `next.config.ts` (par défaut `.next`)
+- Toutes les dépendances sont listées dans `package.json`
+
 ### Erreur de base de données
 
 Vérifiez que :
-- La variable `DATABASE_URL` est correctement configurée
+- La variable `DATABASE_URL` est correctement configurée dans les variables d'environnement Netlify
 - Votre base de données est accessible depuis l'extérieur
-- Les migrations Prisma ont été exécutées
+- Les migrations Prisma ont été exécutées (`npx prisma migrate deploy`)
 
 ### API routes ne fonctionnent pas
 
-Le plugin `@netlify/plugin-nextjs` gère automatiquement les API routes. Vérifiez qu'il est bien installé dans `package.json`.
+Netlify gère automatiquement les API routes de Next.js. Vérifiez que :
+- Vos routes API sont dans le dossier `app/api/`
+- Le build s'est terminé sans erreur
+- Les fonctions serverless sont activées sur Netlify (activé par défaut)
 
 ## Support
 

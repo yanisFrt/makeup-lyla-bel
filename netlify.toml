@@ -3,19 +3,8 @@
   command = "npm run build"
   publish = ".next"
 
-# Next.js plugin for Netlify (handles API routes and SSR)
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
 # Environment variables (configure these in Netlify dashboard)
 # DATABASE_URL - Your production database URL (PostgreSQL, MySQL, etc.)
-
-# Redirects and headers
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
 
 # Security headers
 [[headers]]
