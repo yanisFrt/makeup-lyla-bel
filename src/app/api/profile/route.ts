@@ -3,15 +3,30 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const profile = await prisma.userProfile.findUnique({
-      where: { id: 1 },
-    });
+    // Récupérer le premier profil (ou n'importe lequel)
+    let profile = await prisma.userProfile.findFirst();
 
+    // Si aucun profil n'existe, le créer avec des valeurs par défaut
     if (!profile) {
-      return NextResponse.json(
-        { error: "Profil introuvable" },
-        { status: 404 }
-      );
+      console.log("Profil non trouvé, création du profil par défaut...");
+      profile = await prisma.userProfile.create({
+        data: {
+          name: "LYLA BEL",
+          email: "contact@lylabel.com",
+          phone: "+33 6 12 34 56 78",
+          address: "Paris, France",
+          services: [
+            "Maquillage Jour",
+            "Maquillage Soirée",
+            "Maquillage Mariée",
+            "Maquillage Naturel",
+            "Maquillage Shooting Photo",
+            "Maquillage Événementiel",
+            "Coaching Maquillage",
+          ],
+        },
+      });
+      console.log("Profil créé avec succès:", profile);
     }
 
     return NextResponse.json({ profile });
@@ -27,10 +42,8 @@ export async function PATCH(req: Request) {
     const body = await req.json();
     const { phone, address, services } = body;
 
-    // Vérifier si profil existe
-    const existing = await prisma.userProfile.findUnique({
-      where: { id: 1 },
-    });
+    // Récupérer le premier profil
+    const existing = await prisma.userProfile.findFirst();
 
     if (!existing) {
       return NextResponse.json(
@@ -41,11 +54,11 @@ export async function PATCH(req: Request) {
 
     // Mettre à jour
     const updated = await prisma.userProfile.update({
-      where: { id: 1 },
+      where: { id: existing.id },
       data: {
         phone,
         address,
-        services, 
+        services,
       },
     });
 
