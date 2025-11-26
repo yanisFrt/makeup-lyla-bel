@@ -9,7 +9,8 @@
       "Bash(timeout:*)",
       "Bash(ping:*)",
       "Bash(nul)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "WebFetch(domain:moonlit-pie-0fa8c4.netlify.app)"
     ],
     "deny": [],
     "ask": []

@@ -4,7 +4,7 @@ import FormInput from "@/components/contactComponent/FormInput";
 import ServiceDropdown from "@/components/contactComponent/ServiceDropdown";
 import SubmitButton from "@/components/contactComponent/SubmitButton";
 import { motion } from "framer-motion";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 interface FormData {
   name: string;
@@ -29,34 +29,19 @@ export default function Contact() {
     message: "",
   });
 
-  const [servicesList, setServicesList] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Liste statique des services disponibles
+  const servicesList = [
+    "Maquillage Jour",
+    "Maquillage Soirée",
+    "Maquillage Mariée",
+    "Maquillage Naturel",
+    "Maquillage Shooting Photo",
+    "Maquillage Événementiel",
+    "Coaching Maquillage",
+  ];
+
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
-
-  const fetchProfile = async () => {
-    try {
-      const res = await fetch("/api/profile");
-      const data = await res.json();
-
-      if (res.ok && data.profile) {
-        setServicesList(
-          Array.isArray(data.profile.services) ? data.profile.services : []
-        );
-      } else {
-        setServicesList([]);
-      }
-    } catch (err) {
-      console.error("Erreur fetch profile:", err);
-      setServicesList([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
