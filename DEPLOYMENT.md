@@ -32,6 +32,8 @@ Votre application utilise Prisma et SQLite en développement. Pour la production
 
 Dans Netlify, allez dans **Site settings** → **Environment variables** et ajoutez :
 
+#### Variables obligatoires :
+
 ```
 DATABASE_URL=votre_url_de_base_de_données_production
 ```
@@ -45,6 +47,22 @@ DATABASE_URL=postgresql://user:password@host:5432/database?schema=public
 ```
 DATABASE_URL=mysql://user:password@host:3306/database
 ```
+
+#### Variables pour l'envoi d'emails (Resend) :
+
+Le site utilise Resend pour envoyer des emails de confirmation de réservation. Pour configurer :
+
+1. Créez un compte sur https://resend.com/ (gratuit jusqu'à 3000 emails/mois)
+2. Obtenez votre clé API depuis https://resend.com/api-keys
+3. Ajoutez les variables suivantes :
+
+```
+RESEND_API_KEY=re_votre_clé_api_resend
+EMAIL_FROM=noreply@votredomaine.com
+EMAIL_FROM_NAME=LYLA BEL - Makeup Artist
+```
+
+**Note importante :** Pour utiliser votre propre domaine d'envoi, vous devez d'abord le vérifier dans Resend. En attendant, vous pouvez utiliser `onboarding@resend.dev` pour les tests.
 
 ### 4. Configurer les paramètres de build (déjà configurés)
 

@@ -111,7 +111,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-24 py-6 bg-[#5a011a]">
+    <section className="relative min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-24 pt-24 md:pt-28 pb-12 bg-[#5a011a]">
       <motion.div
         className="w-full md:w-1/2 md:pr-12 mb-12 md:mb-0 flex justify-center"
         initial={{ opacity: 0, x: -20 }}
@@ -120,7 +120,7 @@ export default function Contact() {
       >
         <motion.form
           onSubmit={handleSubmit}
-          className="w-full bg-[#f8e6d2] border-2 border-[#fddf83] rounded-3xl p-8 shadow-[0_0_35px_rgba(255,182,193,0.35)]"
+          className="w-full bg-[#f8e6d2] border-2 border-[#fddf83] rounded-3xl p-6 md:p-8 shadow-[0_0_35px_rgba(255,182,193,0.35)]"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormInput

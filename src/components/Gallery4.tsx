@@ -54,7 +54,7 @@ export default function GalleryWithReviews() {
   return (
     <section
       id="gallery"
-      className="relative min-h-screen bg-[#5a011a] flex flex-col items-center justify-center text-center py-10 scroll-mt-20"
+      className="relative min-h-screen bg-[#5a011a] flex flex-col items-center justify-center text-center py-12 md:py-16 scroll-mt-24 md:scroll-mt-28"
     >
       <div className="w-full mx-auto flex flex-col items-center justify-center gap-7">
         <motion.div

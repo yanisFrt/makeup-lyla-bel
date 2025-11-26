@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sendReservationConfirmationEmail, sendStatusUpdateEmail } from "@/lib/email";
 
 interface ReservationBody {
   id?: number;
@@ -102,7 +103,7 @@ export async function POST(req: Request) {
     }
 
     console.log('🔄 Creating reservation...');
-    
+
     const reservation = await prisma.reservation.create({
       data: {
         nom,
@@ -117,6 +118,28 @@ export async function POST(req: Request) {
     });
 
     console.log('✅ Reservation created:', reservation.id);
+
+    // Send confirmation email if email is provided
+    if (email) {
+      console.log('📧 Sending confirmation email to:', email);
+      const emailResult = await sendReservationConfirmationEmail({
+        nom,
+        email,
+        phone,
+        type_service,
+        adresse,
+        date,
+        hour,
+        other_info,
+      });
+
+      if (emailResult.success) {
+        console.log('✅ Confirmation email sent successfully');
+      } else {
+        console.warn('⚠️ Failed to send confirmation email:', emailResult.error);
+        // Don't fail the reservation if email fails
+      }
+    }
 
     return NextResponse.json(
       { message: "✅ Réservation enregistrée avec succès", reservation },
@@ -211,12 +234,50 @@ export async function PATCH(req: Request) {
 
     console.log("🔄 Updating reservation with id:", id);
 
+    // Get the current reservation to check if status changed
+    const currentReservation = await prisma.reservation.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!currentReservation) {
+      return NextResponse.json(
+        { error: "Réservation non trouvée" },
+        { status: 404 }
+      );
+    }
+
     const updatedReservation = await prisma.reservation.update({
       where: { id: Number(id) },
       data: dataToUpdate,
     });
 
     console.log("✅ Reservation updated:", updatedReservation.id);
+
+    // Send email if status changed to accepted or declined
+    const statusChanged = status && status !== currentReservation.status;
+    const shouldSendEmail = statusChanged && (status === "accepted" || status === "declined");
+
+    if (shouldSendEmail && updatedReservation.email) {
+      console.log(`📧 Sending ${status} email to:`, updatedReservation.email);
+      const emailResult = await sendStatusUpdateEmail({
+        nom: updatedReservation.nom,
+        email: updatedReservation.email,
+        phone: updatedReservation.phone,
+        type_service: updatedReservation.type_service,
+        adresse: updatedReservation.adresse,
+        date: updatedReservation.date,
+        hour: updatedReservation.hour,
+        other_info: updatedReservation.other_info || undefined,
+        status: status as "accepted" | "declined",
+      });
+
+      if (emailResult.success) {
+        console.log(`✅ ${status} email sent successfully`);
+      } else {
+        console.warn(`⚠️ Failed to send ${status} email:`, emailResult.error);
+        // Don't fail the update if email fails
+      }
+    }
 
     return NextResponse.json(
       {

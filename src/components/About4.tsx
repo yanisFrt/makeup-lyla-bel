@@ -13,16 +13,16 @@ export default function AboutAndPrestationsSingle() {
   return (
     <section
       id="about-prestations"
-      className="relative lg:h-screen flex flex-col text-center scroll-mt-20"
+      className="relative lg:h-screen flex flex-col text-center scroll-mt-24 md:scroll-mt-28"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="lg:flex-[0.3] flex flex-col items-center justify-center bg-[#f8e6d2] "
+        className="lg:flex-[0.3] flex flex-col items-center justify-center bg-[#f8e6d2] py-8 md:py-0"
       >
-        <div className="flex flex-col items-center mt-6 mb-4">
+        <div className="flex flex-col items-center mt-2 md:mt-6 mb-4">
           <span className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#c9a063] to-transparent mb-2"></span>
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#5A002E] tracking-wide drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] relative">
             À propos

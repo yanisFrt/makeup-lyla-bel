@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 export default function Details() {
   return (
-    <section className="min-h-screen bg-[#f8f2ec] text-[#4b0030]  py-16 px-8 md:px-32">
+    <section className="min-h-screen bg-[#f8f2ec] text-[#4b0030] pt-24 md:pt-28 pb-16 px-8 md:px-32">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

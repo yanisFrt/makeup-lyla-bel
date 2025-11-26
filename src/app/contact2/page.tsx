@@ -192,7 +192,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col md:flex-row px-6 md:px-24 py-14 bg-gradient-to-b from-rose-950 via-rose-900 to-rose-950">
+    <section className="relative min-h-screen flex flex-col md:flex-row px-6 md:px-24 pt-24 md:pt-28 pb-14 bg-gradient-to-b from-rose-950 via-rose-900 to-rose-950">
       <motion.div
         className="w-full md:w-1/2 md:pr-12 mb-10 md:mb-0"
         initial={{ opacity: 0, x: -20 }}
@@ -201,9 +201,9 @@ export default function Contact() {
       >
         <motion.form
           onSubmit={handleSubmit}
-          className="w-full bg-black/20 border border-[#D4AF37] rounded-3xl p-8 shadow-[0_0_40px_rgba(212,175,55,0.35)] backdrop-blur-md"
+          className="w-full bg-black/20 border border-[#D4AF37] rounded-3xl p-6 md:p-8 shadow-[0_0_40px_rgba(212,175,55,0.35)] backdrop-blur-md"
         >
-          <h2 className="text-3xl font-serif text-center font-bold mb-6 text-[#fce7b0]">
+          <h2 className="text-2xl md:text-3xl font-serif text-center font-bold mb-6 text-[#fce7b0]">
             Réservation
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
